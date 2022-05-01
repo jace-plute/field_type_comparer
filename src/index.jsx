@@ -20,7 +20,7 @@ const determineColorOfRow = (issueTypeAndField) => {
       );
     }
   } else {
-    return <Text><Badge appearance="default" text={issueTypeAndField.fieldName} /></Text>;
+    return <Text><Badge appearance="removed" text={issueTypeAndField.fieldName} /></Text>;
   } 
 };
 
@@ -79,7 +79,6 @@ const View = () => {
   const { extensionContext: { gadgetConfiguration } } = useProductContext();
   const projectData = useState(async () => await dataRetrieval.getAllData());
   dataComparison.compareDifferencesToBase(projectData, gadgetConfiguration.projectSelect);
-  console.log(JSON.stringify(projectData));
 
   return (
     <DashboardGadget>
