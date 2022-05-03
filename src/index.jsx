@@ -3,6 +3,18 @@ import * as dataRetrieval from './utils/dataRetrieval';
 import * as dataComparison from './utils/dataComparison';
 let defaultProject = null;
 
+const determineColorOfIssueType = (issueTypeAndField) => {
+  let matchingDefault = defaultProject.issueTypesAndFields.filter(singleIssueTypeFieldPair => { 
+    return singleIssueTypeFieldPair.issueTypeName === issueTypeAndField.issueTypeName
+  })[0];
+
+  if (matchingDefault) {
+    return <Text>{issueTypeAndField.issueTypeName}</Text>
+  } else {
+    return <Text><Badge appearance="removed" text={issueTypeAndField.issueTypeName} /></Text>;
+  }
+}
+
 const determineColorOfRow = (issueTypeAndField) => {
   let matchingDefault = defaultProject.issueTypesAndFields.filter(singleIssueTypeFieldPair => { 
     return singleIssueTypeFieldPair.fieldName === issueTypeAndField.fieldName && singleIssueTypeFieldPair.issueTypeName === issueTypeAndField.issueTypeName
@@ -33,7 +45,7 @@ const createUiComponents = (projectData, defaultProjectId) => {
   let uiOutput = projectData.map((project) => {
     return (
       <Fragment>
-        <Text content={`${"Project: " + project.projectName}`} />
+        <Text content={`${"Project(s): " + project.projectName}`} />
         <Table>
           <Head>
             <Cell>
@@ -48,7 +60,7 @@ const createUiComponents = (projectData, defaultProjectId) => {
           {project.issueTypesAndFields.map(issueTypeAndField => {
             return <Row>
               <Cell>
-                <Text>{issueTypeAndField.issueTypeName}</Text>
+                {determineColorOfIssueType(issueTypeAndField)}
               </Cell>
               <Cell>
                 {determineColorOfRow(issueTypeAndField)}

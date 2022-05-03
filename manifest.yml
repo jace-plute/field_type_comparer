@@ -1,8 +1,8 @@
 modules:
   jira:dashboardGadget:
-    - key: field-type-comparer-hello-world-gadget
-      title: field_type_comparer
-      description: A hello world dashboard gadget.
+    - key: field-type-comparer
+      title: Field Type Comparer
+      description: A gadget to compare issue types and their field types between projects in a JIRA space.
       thumbnail: https://developer.atlassian.com/platform/forge/images/icons/issue-panel-icon.svg
       function: main
       edit:
