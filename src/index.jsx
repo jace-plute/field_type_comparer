@@ -1,6 +1,7 @@
 import ForgeUI, { useState, DashboardGadget, DashboardGadgetEdit, render, Text, Fragment, Table, Row, Cell, Badge, Head, useProductContext, Select, Option } from "@forge/ui";
 import * as dataRetrieval from './utils/dataRetrieval';
 import * as dataComparison from './utils/dataComparison';
+import * as api from './utils/api';
 let defaultProject = null;
 
 const determineColorOfIssueType = (issueTypeAndField) => {
@@ -89,7 +90,9 @@ const createDropdownSelector = (projectOptions) => {
 
 const View = () => {
   const { extensionContext: { gadgetConfiguration } } = useProductContext();
-  const projectData = useState(async () => await dataRetrieval.getAllData());
+  const defaultCategory = useState(async () => await api.getTempProjectCategory(gadgetConfiguration.projectSelect));
+  const defaultCategoryID = defaultCategory[0].values[0].projectCategory.id;
+  const projectData = useState(async () => await dataRetrieval.getAllData(defaultCategoryID));
   dataComparison.compareDifferencesToBase(projectData, gadgetConfiguration.projectSelect);
 
   return (
