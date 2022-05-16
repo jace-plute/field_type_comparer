@@ -33,22 +33,29 @@ export const compareDifferencesToBase = (projectData, defaultProjectId) => {
     });
 
     project.differenceLog.sort((a, b) => sortDiffLog(a, b));
+    project.issueTypesAndFields.sort((a, b) => sortDiffLog(a, b));
   });
 
   let removalArray = [];
   for (let project of projectData) {
-    let matchingProject = projectData.filter((matchingProject) => {
+    let matchingProjects = projectData.filter((matchingProject) => {
       return objectsEqual(project.differenceLog, matchingProject.differenceLog);
-    })[0];
+    });
 
-    if (
-      matchingProject &&
-      matchingProject.projectName &&
-      !project.projectName.includes(matchingProject.projectName)
-    ) {
-      removalArray.push(matchingProject);
-      project.projectName = `${project.projectName}, ${matchingProject.projectName}`;
+    if (removalArray.includes(project)) {
+      continue;
     }
+
+    matchingProjects.forEach((matchingProject) => {
+      if (
+        matchingProject &&
+        matchingProject.projectName &&
+        !project.projectName.includes(matchingProject.projectName)
+      ) {
+        removalArray.push(matchingProject);
+        project.projectName = `${project.projectName}, ${matchingProject.projectName}`;
+      }
+    });
   }
 
   removalArray.forEach((removeObj) => {

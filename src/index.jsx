@@ -97,6 +97,7 @@ const View = () => {
 
   return (
     <DashboardGadget>
+      <Text>Project Category: {defaultCategory[0].values[0].projectCategory.name} - Project Count: {projectData[0].length}</Text>
       {createUiComponents(projectData, gadgetConfiguration.projectSelect)}
     </DashboardGadget>
   );
